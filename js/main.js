@@ -25,6 +25,9 @@ class Deck {
                 this.deck[i] = this.deck[j];
                 this.deck[j] = temp;
             }
+        this.dealCard = function(){
+          return this.deck.shift();
+        }
         }
     }
 }
@@ -51,4 +54,6 @@ let deck = new Deck();
 deck.populateDeck();
 console.log(deck);
 deck.shuffle();
+console.log(deck);
+console.log(deck.dealCard());
 console.log(deck);
