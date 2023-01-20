@@ -1,7 +1,34 @@
-///Define Important Constants:
-//The deck size (likely a variable) 
-//The value in which the player/dealer will bust
-//The value of an ace (either low or high)
+//Card class that defines how the cards will be setup in the deck
+class Card {
+    constructor(rank, suit){
+        this.rank = rank
+        this.suit = suit
+    }
+}
+// Deck class that allows me to create a deck, shuffle it, and deal the cards
+class Deck {
+    constructor(){
+        this.deck = [];
+        this.populateDeck  = function(){
+            const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+            const suits = ["hearts", "diamonds", "clubs", "spades"];
+            for(let i=0; i < suits.length; i++){
+                for(let j = 0; j < ranks.length; j++){
+                    this.deck.push(new Card(ranks[j], suits[i]));
+                }
+            }
+        }
+        this.shuffle = function(){
+            for (let i = deck.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * i);
+                let temp = deck[i];
+                deck[i] = deck[j];
+                deck[j] = temp;
+            }
+
+        }
+    }
+}
 //The value where the dealer will continuously hit until they bust (17)
 //How much the player will win in terms of chips
 ///Define Important Variables:
@@ -20,4 +47,7 @@
 //If the dealer has a better hand or blackjack, the dealer wins
 //If the hand’s values are equal, a “push” happens (essentially a tie)
 //The cards are then retrieved, the deck is shuffled, and the player is able to choose to bet again to start a new game. 
-//If their balance is 0, they are able to click a “loan” button, giving them more chips but reducing their “winnings” by a considerable amount.
+//If their balance is 0, they are able to click a “loan” button, giving them more chips but reducing their “winnings” by a considerable amount
+let deck = new Deck();
+deck.populateDeck();
+console.log(deck);
