@@ -1,0 +1,55 @@
+.parent {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(11, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    }
+    
+    .board { 
+        grid-area: 3 / 3 / 9 / 10; 
+        width: 640x;
+        height: 320px;
+        background: #a84909;
+        border-radius: 40px;
+    }
+    .winnings { 
+        grid-area: 2 / 5 / 3 / 7;
+        text-align: center;
+    }
+    .hit { grid-area: 9 / 3 / 10 / 4; }
+    .bet-amount { grid-area: 9 / 5 / 10 / 7; }
+    .stand-button { grid-area: 9 / 8 / 10 / 9; }
+    .player-card-left { 
+        grid-area: 6 / 5 / 8 / 6;
+        width: 60px;
+        height: 100px;
+        border: 2px solid #000;
+    }
+    .player-card-right { 
+        grid-area: 6 / 6 / 8 / 7;
+        width: 60px;
+        height: 100px;
+        border: 2px solid #000;
+    }
+    .dealer-card-right { 
+        grid-area: 4 / 5 / 6 / 6; 
+        width: 60px;
+        height: 100px;
+        border: 2px solid #000;
+    }
+    .dealer-card-left { 
+        grid-area: 4 / 6 / 6 / 7; 
+        width: 60px;
+        height: 100px;
+        border: 2px solid #000;
+    }
+    .deck { 
+        grid-area: 4 / 7 / 6 / 8;
+        width: 60px;
+        height: 100px;
+        border: 2px solid #000;
+     }
+    .increase-bet { grid-area: 9 / 7 / 10 / 8; }
+    .decrease-bet { grid-area: 9 / 4 / 10 / 5; }
+    .deal { grid-area: 10 / 5 / 11 / 7; }
