@@ -4,11 +4,13 @@
     grid-template-rows: repeat(11, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    align-items: center;
+    justify-items: center;
     }
     
     .board { 
         grid-area: 3 / 3 / 9 / 10; 
-        width: 640x;
+        width: 640px;
         height: 320px;
         background: green;
         border-radius: 40px;
@@ -20,7 +22,7 @@
         text-align: center;
     }
     .hit { 
-        grid-area: 9 / 3 / 10 / 4;
+        grid-area: 9 / 4 / 10 / 4;
     }
     button {
         height: 30px;
@@ -34,30 +36,26 @@
         grid-area: 9 / 5 / 10 / 8;
         text-align: center;
      }
-    .stand-button { grid-area: 9 / 9 / 10 / 9; }
+    .stand-button { grid-area: 9 / 8 / 10 / 9; }
     .player-card-left { 
         grid-area: 6 / 5 / 8 / 6;
         width: 60px;
         height: 100px;
-        border: 2px solid #000;
     }
     .player-card-right { 
         grid-area: 6 / 6 / 8 / 7;
         width: 60px;
         height: 100px;
-        border: 2px solid #000;
     }
     .dealer-card-right { 
         grid-area: 4 / 5 / 6 / 6; 
         width: 60px;
         height: 100px;
-        border: 2px solid #000;
     }
     .dealer-card-left { 
         grid-area: 4 / 6 / 6 / 7; 
         width: 60px;
         height: 100px;
-        border: 2px solid #000;
     }
     .deck { 
         grid-area: 4 / 7 / 6 / 8;
@@ -65,10 +63,18 @@
         height: 100px;
         border: 2px solid #000;
      }
-    .increase-bet { grid-area: 9 / 8 / 10 / 8; }
-    .decrease-bet { grid-area: 9 / 4 / 10 / 5; }
-    .deal { grid-area: 10 / 5 / 11 / 7; }
+    .increase-bet { grid-area: 9 / 7 / 10 / 7; }
+    .decrease-bet { grid-area: 9 / 5 / 10 / 5; }
+    .deal { grid-area: 10 / 6 / 11 / 7; }
     #Deal {
-        margin-top: -10px;
-        width: 200px;
+        margin: auto;
+        width: 125px;
+    }
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 3px;
     }

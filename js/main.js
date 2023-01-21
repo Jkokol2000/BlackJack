@@ -1,3 +1,10 @@
+let deck;
+let winner;
+let inDebt;
+let playerHand;
+let dealerHand;
+
+
 //Card class that defines how the cards will be setup in the deck
 class Card {
     constructor(rank, suit){
@@ -25,11 +32,11 @@ class Deck {
                 this.deck[i] = this.deck[j];
                 this.deck[j] = temp;
             }
-        this.dealCard = function(){
-          return this.deck.shift();
-        }
+        this.dealCard = function(int){
+        return this.deck.splice(0,int);
         }
     }
+}
 }
 //The value where the dealer will continuously hit until they bust (17)
 //How much the player will win in terms of chips
@@ -50,10 +57,11 @@ class Deck {
 //If the hand’s values are equal, a “push” happens (essentially a tie)
 //The cards are then retrieved, the deck is shuffled, and the player is able to choose to bet again to start a new game. 
 //If their balance is 0, they are able to click a “loan” button, giving them more chips but reducing their “winnings” by a considerable amount
-let deck = new Deck();
+deck = new Deck();
 deck.populateDeck();
 console.log(deck);
 deck.shuffle();
 console.log(deck);
-console.log(deck.dealCard());
+playerHand = deck.dealCard(2);
+console.log(`${playerHand[0].rank} of ${playerHand[0].suit}`)
 console.log(deck);
