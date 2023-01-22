@@ -13,6 +13,8 @@ let playerHand;
 let dealerHand;
 let currentBet;
 let currentWinnings;
+let playerScore;
+let dealerScore;
 
 let playerLeft = document.querySelector('.player-card-left')
 let playerRight = document.querySelector('.player-card-right')
@@ -78,6 +80,8 @@ playerHand = [];
 dealerHand = [];
 currentBet = 0;
 currentWinnings = 0;
+dealerScore = 10;
+playerScore = 0;
 }
 
 function deal() {
@@ -89,4 +93,67 @@ function deal() {
     dealerRight.innerHTML = `Facedown`
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
+}
+
+function calcPlayerWins() {
+    for (i = 0; i < playerHand.length; i++){
+        playerScore += calcScore(playerHand[i].rank)
+    }
+    if (playerScore <= 21) {
+        if (playerScore === dealerScore) {
+            winner = 'T'
+        } else if (playerScore > dealerScore) {
+            winner = 'P'
+        } else {
+            winner = 'D'
+        }
+    } else {
+        winner = 'D'
+    }
+}
+
+function calcScore(rank) {
+    score = 0
+    switch (rank) {
+        case 'A':
+            score += 1
+            break;
+        case '02':
+            score += 2
+            break;
+        case '03':
+            score += 3
+            break;
+        case '04':
+            score += 4
+            break;
+        case '05':
+            score += 5
+            break;
+        case '06':
+            score += 6
+            break;
+        case '07':
+            score += 7
+            break;
+        case '08':
+            score += 8
+            break;
+        case '09':
+            score += 9
+            break;
+        case '10':
+            score += 10
+            break;
+        case 'J':
+            score += 11
+            break;
+        case 'Q':
+            score += 12
+            break;
+        case 'K':
+            score += 13
+            break;
+    }
+return score
 }
