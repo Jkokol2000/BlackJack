@@ -1,10 +1,29 @@
+const SUITICONS = {
+    'spades':'s',
+    'hearts' : 'h',
+    'diamonds' : 'd',
+    'clubs' : 'c'
+}
+
+
 let deck;
 let winner;
 let inDebt;
 let playerHand;
 let dealerHand;
+let currentBet;
+let currentWinnings;
 
+let playerLeft = document.querySelector('.player-card-left')
+let playerRight = document.querySelector('.player-card-right')
+let dealerLeft = document.querySelector('.dealer-card-left')
+let dealerRight = document.querySelector('.dealer-card-right')
+let dealbutton = document.querySelector('.deal')
+let plusTenButton = document.querySelector('.increase-bet-button')
+let minusTenButton = document.querySelector('.decrease-bet-button')
+let currentBetEl = document.querySelector('.bet-amount')
 
+dealbutton.addEventListener("click", deal)
 //Card class that defines how the cards will be setup in the deck
 class Card {
     constructor(rank, suit){
@@ -12,12 +31,24 @@ class Card {
         this.suit = suit
     }
 }
+plusTenButton.addEventListener("click", function(){
+    currentBet += 10;
+    currentBetEl.innerHTML = `Current Bet: ${currentBet}$`
+})
+minusTenButton.addEventListener("click", function(){
+    if (currentBet !== 0) {
+    currentBet -= 10;
+    currentBetEl.innerHTML = `Current Bet: ${currentBet}$`
+    } else {
+        return
+    }
+})
 // Deck class that allows me to create a deck, shuffle it, and deal the cards
 class Deck {
     constructor(){
         this.deck = [];
         this.populateDeck  = function(){
-            const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+            const ranks = ["02", "03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K", "A"];
             const suits = ["hearts", "diamonds", "clubs", "spades"];
             for(let i=0; i < suits.length; i++){
                 for(let j = 0; j < ranks.length; j++){
@@ -38,30 +69,24 @@ class Deck {
     }
 }
 }
-//The value where the dealer will continuously hit until they bust (17)
-//How much the player will win in terms of chips
-///Define Important Variables:
-//The Player’s and the Dealer’s Hand
-//The Player’s or Dealer’s Bust status (true or false)
-//The Cards currently in deck (Deck will likely be a object with two lists representing suits and card values)
-//The player’s Wager and current Balance
-///Initialize the board and define the game rules:
-//Create a board with the deck in the middle, then allow the player to bet
-//The deck is shuffled, then the dealer Deals the cards to player, then dealer, then player, then dealer
-//Show the player’s cards, and one of the dealer’s cards
-//The player will be able to choose between hitting or staying
-//If the player busts, they immediately lose
-//If the player stays, the dealer reveals their other card, then takes cards until their hand equals 17 or more
-//If the dealer busts or has a hand worse than the player’s, the player wins
-//If the dealer has a better hand or blackjack, the dealer wins
-//If the hand’s values are equal, a “push” happens (essentially a tie)
-//The cards are then retrieved, the deck is shuffled, and the player is able to choose to bet again to start a new game. 
-//If their balance is 0, they are able to click a “loan” button, giving them more chips but reducing their “winnings” by a considerable amount
+init();
+function init() {
 deck = new Deck();
 deck.populateDeck();
-console.log(deck);
 deck.shuffle();
-console.log(deck);
-playerHand = deck.dealCard(2);
-console.log(`${playerHand[0].rank} of ${playerHand[0].suit}`)
-console.log(deck);
+playerHand = [];
+dealerHand = [];
+currentBet = 0;
+currentWinnings = 0;
+}
+
+function deal() {
+    playerHand = deck.dealCard(2)
+    dealerHand = deck.dealCard(2)
+    playerLeft.innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
+    playerRight.innerHTML = `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`
+    dealerLeft.innerHTML = `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`
+    dealerRight.innerHTML = `Facedown`
+    plusTenButton.disabled = true;
+    minusTenButton.disabled = true;
+}
