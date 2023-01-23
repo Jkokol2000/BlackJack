@@ -505,3 +505,10 @@
   .card.E.shadow {
     box-shadow: -2px 2px 3px 0 rgba(41, 41, 41, 0.75); }
   
+.next-hand {
+    grid-area: 9 / 6 / 11 / 9;
+}
+
+.new-hand {
+    width: fit-content;
+}

@@ -15,6 +15,7 @@ let currentBet = 0;
 let currentWinnings = 1000;
 let playerScore;
 let dealerScore;
+let numberOfGames = 0;
 
 let playerCard = {
     '1' : document.querySelector('.player-card-1'),
@@ -44,6 +45,7 @@ let currentWinningsEl = document.querySelector('.winnings');
 let messageEl = document.querySelector('.message');
 let standButton = document.querySelector('.stand-button');
 let hitButton = document.querySelector('.hit-button');
+let nextHand = document.querySelector('.new-hand');
 
 dealbutton.addEventListener("click", deal)
 //Card class that defines how the cards will be setup in the deck
@@ -71,6 +73,10 @@ minusTenButton.addEventListener("click", function(){
 })
 standButton.addEventListener("click", calcPlayerWins);
 hitButton.addEventListener("click", hit);
+nextHand.addEventListener("click", function() {
+    numberOfGames++;
+    init();
+})
 // Deck class that allows me to create a deck, shuffle it, and deal the cards
 class Deck {
     constructor(){
@@ -102,7 +108,6 @@ function init() {
 deck = new Deck();
 deck.populateDeck();
 deck.shuffle();
-render("Place a bet!");
 playerHand = [];
 dealerHand = [];
 winner = null;
@@ -110,6 +115,11 @@ dealerScore = 10;
 playerScore = 0;
 plusTenButton.disabled = false;
 minusTenButton.disabled = false;
+if (numberOfGames !== 0) {
+    render("Place a bet.")
+} else {
+    render("Welcome to BlackJack! Place a bet.")
+}
 }
 
 
@@ -135,18 +145,21 @@ function calcPlayerWins() {
         revealFacedown();
         if (playerScore === dealerScore) {
             winner = 'T'
+            renderMessage("Push! Here's your money back.")
         } else if (playerScore > dealerScore) {
             winner = 'P'
             currentWinnings += currentBet * 2
+            renderMessage(`You win! You gained ${currentBet * 2}$ `)
         } else {
             winner = 'D'
             currentWinnings -= currentBet
+            renderMessage(`Dealer Wins! You lost ${currentBet}$`)
         }
     } else {
         winner = 'D'
         currentWinnings -= currentBet
     }
-    init();
+    
 }
 
 function calcScore(rank) {
@@ -208,6 +221,7 @@ function hit() {
     cardToHit = deck.dealCard(1)
     playerHand.push(cardToHit[0]);
     playerCard[playerHand.length].innerHTML = `${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`
+
 }
 
 function render(message){
