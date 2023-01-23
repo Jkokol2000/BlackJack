@@ -16,17 +16,34 @@ let currentWinnings = 1000;
 let playerScore;
 let dealerScore;
 
-let playerCard1 = document.querySelector('.player-card-1')
-let playerCard2 = document.querySelector('.player-card-2')
-let dealerCard1= document.querySelector('.dealer-card-1')
-let dealerCard2 = document.querySelector('.dealer-card-2')
-let dealbutton = document.querySelector('.deal')
-let plusTenButton = document.querySelector('.increase-bet-button')
-let minusTenButton = document.querySelector('.decrease-bet-button')
-let currentBetEl = document.querySelector('.bet-amount')
-let currentWinningsEl = document.querySelector('.winnings')
-let messageEl = document.querySelector('.message')
+let playerCard = {
+    '1' : document.querySelector('.player-card-1'),
+    '2' : document.querySelector('.player-card-2'),
+    '3' : document.querySelector('.player-card-3'),
+    '4' : document.querySelector('.player-card-4'),
+    '5' : document.querySelector('.player-card-5'),
+    '6' : document.querySelector('.player-card-6'),
+    '7' : document.querySelector('.player-card-7'),
+    '8' : document.querySelector('.player-card-8')
+}
+let dealerCard = {
+    '1' : document.querySelector('.dealer-card-1'),
+    '2' : document.querySelector('.dealer-card-2'),
+    '3' : document.querySelector('.dealer-card-3'),
+    '4' : document.querySelector('.dealer-card-4'),
+    '5' : document.querySelector('.dealer-card-5'),
+    '6' : document.querySelector('.dealer-card-6'),
+    '7' : document.querySelector('.dealer-card-7'),
+    '8' : document.querySelector('.dealer-card-8'),
+}
+let dealbutton = document.querySelector('.deal');
+let plusTenButton = document.querySelector('.increase-bet-button');
+let minusTenButton = document.querySelector('.decrease-bet-button');
+let currentBetEl = document.querySelector('.bet-amount');
+let currentWinningsEl = document.querySelector('.winnings');
+let messageEl = document.querySelector('.message');
 let standButton = document.querySelector('.stand-button');
+let hitButton = document.querySelector('.hit-button');
 
 dealbutton.addEventListener("click", deal)
 //Card class that defines how the cards will be setup in the deck
@@ -53,6 +70,7 @@ minusTenButton.addEventListener("click", function(){
     }
 })
 standButton.addEventListener("click", calcPlayerWins);
+hitButton.addEventListener("click", hit);
 // Deck class that allows me to create a deck, shuffle it, and deal the cards
 class Deck {
     constructor(){
@@ -84,12 +102,12 @@ function init() {
 deck = new Deck();
 deck.populateDeck();
 deck.shuffle();
+render("Place a bet!");
 playerHand = [];
 dealerHand = [];
 winner = null;
 dealerScore = 10;
 playerScore = 0;
-renderMessage("Place a bet!")
 plusTenButton.disabled = false;
 minusTenButton.disabled = false;
 }
@@ -100,17 +118,16 @@ minusTenButton.disabled = false;
 function deal() {
     playerHand = deck.dealCard(2)
     dealerHand = deck.dealCard(2)
-    playerCard1.innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
-    playerCard2.innerHTML = `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`
-    dealerCard2.innerHTML = `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`
-    dealerCard1.innerHTML = `Facedown`
+    playerCard[1].innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
+    playerCard[2].innerHTML = `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`
+    dealerCard[2].innerHTML = `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`
+    dealerCard[1].innerHTML = `Facedown`
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
     messageEl.innerHTML = "";
 }
 
 function calcPlayerWins() {
-    console.log("Stand button clicked");
     for (i = 0; i < playerHand.length; i++){
         playerScore += calcScore(playerHand[i].rank)
     }
@@ -185,5 +202,25 @@ function renderMessage(message) {
   }
 
 function revealFacedown(){
-    dealerCard2.innerHTML = `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`
+    dealerCard[1].innerHTML = `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`
+}
+function hit() {
+    cardToHit = deck.dealCard(1)
+    playerHand.push(cardToHit[0]);
+    playerCard[playerHand.length].innerHTML = `${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`
+}
+
+function render(message){
+    renderMessage(message)
+    renderBoard()
+}
+
+function renderBoard(){
+    for (element in playerCard) {
+        playerCard[element].innerHTML = ""
+    }
+    for (element in dealerCard) {
+        dealerCard[element].innerHTML = ""
+    }
+
 }
