@@ -144,9 +144,7 @@ function deal() {
 
 function calcPlayerWins() {
     revealFacedown();
-    for (i = 0; i < playerHand.length; i++){
-        playerScore += calcScore(playerHand[i].rank)
-    }
+    calcCurrentScore("P");
     if (playerScore <= 21) {
         dealerDeals(dealerScore);
         if (playerScore === dealerScore) {
@@ -225,10 +223,14 @@ function revealFacedown(){
     dealerCard[1].innerHTML = `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`
 }
 function hit() {
+   
     cardToHit = deck.dealCard(1)
-    playerHand.push(cardToHit[0]);
+    playerHand.push(cardToHit[0])
+    calcCurrentScore("P");
     playerCard[playerHand.length].innerHTML = `${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`
-
+    if (playerScore >= 21) {
+        calcPlayerWins();
+    }
 }
 
 function render(message){
@@ -246,23 +248,32 @@ function renderBoard(){
 
 }
 
-function calcDealerHand() {
+function calcCurrentScore(PorD) {
+    if (PorD === "D") {
+        dealerScore = 0
     for (i = 0; i < dealerHand.length; i++){
         dealerScore += calcScore(dealerHand[i].rank)
     } 
+} else if (PorD === "P") {
+    playerScore = 0
+    for (i = 0; i < playerHand.length; i++){
+        playerScore += calcScore(playerHand[i].rank)
+    }
+} else {
+    return console.log("Neither Player nor Dealer given")
 }
-
+}
 function dealerDeals(){
-    calcDealerHand();
+    calcCurrentScore("D");
     for (i = 0; i < 8; i++){
     if (dealerScore < 17) {
-        dealerScore = 0
         cardToHit = deck.dealCard(1)
         dealerHand.push(cardToHit[0]);
         dealerCard[dealerHand.length].innerHTML = `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`
-        calcDealerHand();
+        calcCurrentScore("D");
     } else {
         break;
     }
 }
 }
+
