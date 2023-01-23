@@ -24,6 +24,8 @@ let dealbutton = document.querySelector('.deal')
 let plusTenButton = document.querySelector('.increase-bet-button')
 let minusTenButton = document.querySelector('.decrease-bet-button')
 let currentBetEl = document.querySelector('.bet-amount')
+let currentWinningsEl = document.querySelector('.winnings')
+let messageEl = document.querySelector('.message')
 
 dealbutton.addEventListener("click", deal)
 //Card class that defines how the cards will be setup in the deck
@@ -79,9 +81,11 @@ deck.shuffle();
 playerHand = [];
 dealerHand = [];
 currentBet = 0;
+winner = null;
 currentWinnings = 0;
 dealerScore = 10;
 playerScore = 0;
+renderMessage("Place a bet");
 }
 
 function deal() {
@@ -93,6 +97,7 @@ function deal() {
     dealerRight.innerHTML = `Facedown`
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
+    messageEl.innerHTML = "";
 }
 
 function calcPlayerWins() {
@@ -104,6 +109,8 @@ function calcPlayerWins() {
             winner = 'T'
         } else if (playerScore > dealerScore) {
             winner = 'P'
+            currentWinnings += currentBet * 2
+            currentWinningsEl.innerHTML = `Current Winnings: $${currentWinnings}`
         } else {
             winner = 'D'
         }
@@ -156,4 +163,8 @@ function calcScore(rank) {
             break;
     }
 return score
+}
+
+function renderMessage(message) {
+    messageEl.innerHTML = message
 }

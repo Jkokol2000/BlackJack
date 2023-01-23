@@ -17,6 +17,10 @@
         border: 5px solid #8B4513;
         margin-bottom: 5px;
     }
+    .message {
+        grid-area: 1 / 5 / 3 / 8;
+        text-align: center;
+    }
     .winnings { 
         grid-area: 2 / 5 / 3 / 8;
         text-align: center;
