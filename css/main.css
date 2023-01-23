@@ -42,53 +42,48 @@
      }
     .stand { grid-area: 9 / 9 / 10 / 10; }
     .player-card-1 { 
-        grid-area: 6 / 11 / 8 / 11;
-        width: 60px;
-        height: 100px;
-    }
-    .player-card-2 { 
         grid-area: 6 / 10 / 8 / 10;
         width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
-    .player-card-3 { 
+    .player-card-2 { 
         grid-area: 6 / 9 / 8 / 9;
         width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
-    .player-card-4 { 
+    .player-card-3 { 
         grid-area: 6 / 8 / 8 / 8;
         width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
-    .player-card-5 { 
+    .player-card-4 { 
         grid-area: 6 / 7 / 8 / 7;
         width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
-    .player-card-6 { 
+    .player-card-5 { 
         grid-area: 6 / 6 / 8 / 6;
         width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
-    .player-card-7 { 
+    .player-card-6 { 
         grid-area: 6 / 5 / 8 / 5;
         width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
-    .player-card-8 { 
+    .player-card-7 { 
         grid-area: 6 / 4 / 8 / 4;
         width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
-    .player-card-9 { 
+    .player-card-8 { 
         grid-area: 6 / 3 / 8 / 3;
         width: 60px;
         height: 100px;

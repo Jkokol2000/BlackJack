@@ -11,8 +11,8 @@ let winner;
 let inDebt;
 let playerHand;
 let dealerHand;
-let currentBet;
-let currentWinnings;
+let currentBet = 0;
+let currentWinnings = 1000;
 let playerScore;
 let dealerScore;
 
@@ -26,6 +26,7 @@ let minusTenButton = document.querySelector('.decrease-bet-button')
 let currentBetEl = document.querySelector('.bet-amount')
 let currentWinningsEl = document.querySelector('.winnings')
 let messageEl = document.querySelector('.message')
+let standButton = document.querySelector('.stand-button');
 
 dealbutton.addEventListener("click", deal)
 //Card class that defines how the cards will be setup in the deck
@@ -36,8 +37,12 @@ class Card {
     }
 }
 plusTenButton.addEventListener("click", function(){
+    if (currentBet < currentWinnings) {
     currentBet += 10;
     currentBetEl.innerHTML = `Current Bet: ${currentBet}$`
+    } else {
+        return;
+    }
 })
 minusTenButton.addEventListener("click", function(){
     if (currentBet !== 0) {
@@ -47,6 +52,7 @@ minusTenButton.addEventListener("click", function(){
         return
     }
 })
+standButton.addEventListener("click", calcPlayerWins);
 // Deck class that allows me to create a deck, shuffle it, and deal the cards
 class Deck {
     constructor(){
@@ -80,13 +86,16 @@ deck.populateDeck();
 deck.shuffle();
 playerHand = [];
 dealerHand = [];
-currentBet = 0;
 winner = null;
-currentWinnings = 0;
 dealerScore = 10;
 playerScore = 0;
-renderMessage("Place a bet");
+renderMessage("Place a bet!")
+plusTenButton.disabled = false;
+minusTenButton.disabled = false;
 }
+
+
+
 
 function deal() {
     playerHand = deck.dealCard(2)
@@ -101,6 +110,7 @@ function deal() {
 }
 
 function calcPlayerWins() {
+    console.log("Stand button clicked");
     for (i = 0; i < playerHand.length; i++){
         playerScore += calcScore(playerHand[i].rank)
     }
@@ -111,13 +121,15 @@ function calcPlayerWins() {
         } else if (playerScore > dealerScore) {
             winner = 'P'
             currentWinnings += currentBet * 2
-            currentWinningsEl.innerHTML = `Current Winnings: $${currentWinnings}`
         } else {
             winner = 'D'
+            currentWinnings -= currentBet
         }
     } else {
         winner = 'D'
+        currentWinnings -= currentBet
     }
+    init();
 }
 
 function calcScore(rank) {
@@ -167,8 +179,10 @@ return score
 }
 
 function renderMessage(message) {
-    messageEl.innerHTML = message
-}
+    messageEl.innerHTML = message;
+    currentBetEl.innerHTML = `Current Bet: ${currentBet}$`;
+    currentWinningsEl.innerHTML = `Current Winnings: ${currentWinnings}$`;
+  }
 
 function revealFacedown(){
     dealerCard2.innerHTML = `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`
