@@ -7,7 +7,9 @@
     align-items: center;
     justify-items: center;
     }
-    
+div {
+    margin: 0 15px;
+}
     .board { 
         grid-area: 3 / 2 / 9 / 13; 
         width: 1080px;
@@ -17,9 +19,12 @@
         border: 5px solid #8B4513;
         margin-bottom: 5px;
     }
-    .message {
-        grid-area: 1 / 7 / 3 / 8;
+    .message-container {
+        grid-area: 1 / 6 / 3 / 9;
         text-align: center;
+    }
+    .message {
+        width: fit-content;
     }
     .winnings { 
         grid-area: 2 / 6 / 3 / 9;

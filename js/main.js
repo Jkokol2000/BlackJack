@@ -11,7 +11,7 @@ let winner;
 let inDebt;
 let playerHand;
 let dealerHand;
-let currentBet = 0;
+let currentBet
 let currentWinnings = 1000;
 let playerScore;
 let dealerScore;
@@ -105,6 +105,7 @@ class Deck {
 }
 init();
 function init() {
+currentBet = 0;
 deck = new Deck();
 deck.populateDeck();
 deck.shuffle();
@@ -118,7 +119,7 @@ minusTenButton.disabled = false;
 if (numberOfGames !== 0) {
     render("Place a bet.")
 } else {
-    render("Welcome to BlackJack! Place a bet.")
+    render("Welcome to BlackJack!<br> Place a bet.")
 }
 }
 
@@ -126,6 +127,9 @@ if (numberOfGames !== 0) {
 
 
 function deal() {
+    if (currentBet === 0) {
+        renderMessage("You must bet more than 0 dollars")
+    } else {
     playerHand = deck.dealCard(2)
     dealerHand = deck.dealCard(2)
     playerCard[1].innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
@@ -135,6 +139,7 @@ function deal() {
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
     messageEl.innerHTML = "";
+}
 }
 
 function calcPlayerWins() {
