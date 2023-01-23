@@ -6,7 +6,7 @@ const SUITICONS = {
 }
 
 
-let deck;
+let deck
 let winner;
 let inDebt;
 let playerHand;
@@ -16,10 +16,10 @@ let currentWinnings;
 let playerScore;
 let dealerScore;
 
-let playerLeft = document.querySelector('.player-card-left')
-let playerRight = document.querySelector('.player-card-right')
-let dealerLeft = document.querySelector('.dealer-card-left')
-let dealerRight = document.querySelector('.dealer-card-right')
+let playerCard1 = document.querySelector('.player-card-1')
+let playerCard2 = document.querySelector('.player-card-2')
+let dealerCard1= document.querySelector('.dealer-card-1')
+let dealerCard2 = document.querySelector('.dealer-card-2')
 let dealbutton = document.querySelector('.deal')
 let plusTenButton = document.querySelector('.increase-bet-button')
 let minusTenButton = document.querySelector('.decrease-bet-button')
@@ -91,10 +91,10 @@ renderMessage("Place a bet");
 function deal() {
     playerHand = deck.dealCard(2)
     dealerHand = deck.dealCard(2)
-    playerLeft.innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
-    playerRight.innerHTML = `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`
-    dealerLeft.innerHTML = `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`
-    dealerRight.innerHTML = `Facedown`
+    playerCard1.innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
+    playerCard2.innerHTML = `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`
+    dealerCard2.innerHTML = `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`
+    dealerCard1.innerHTML = `Facedown`
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
     messageEl.innerHTML = "";
@@ -105,6 +105,7 @@ function calcPlayerWins() {
         playerScore += calcScore(playerHand[i].rank)
     }
     if (playerScore <= 21) {
+        revealFacedown();
         if (playerScore === dealerScore) {
             winner = 'T'
         } else if (playerScore > dealerScore) {
@@ -167,4 +168,8 @@ return score
 
 function renderMessage(message) {
     messageEl.innerHTML = message
+}
+
+function revealFacedown(){
+    dealerCard2.innerHTML = `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`
 }
