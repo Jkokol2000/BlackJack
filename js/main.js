@@ -111,7 +111,7 @@ deck.shuffle();
 playerHand = [];
 dealerHand = [];
 winner = null;
-dealerScore = 10;
+dealerScore = 0;
 playerScore = 0;
 plusTenButton.disabled = false;
 minusTenButton.disabled = false;
@@ -138,18 +138,19 @@ function deal() {
 }
 
 function calcPlayerWins() {
+    revealFacedown();
     for (i = 0; i < playerHand.length; i++){
         playerScore += calcScore(playerHand[i].rank)
     }
     if (playerScore <= 21) {
-        revealFacedown();
+        dealerDeals(dealerScore);
         if (playerScore === dealerScore) {
             winner = 'T'
             renderMessage("Push! Here's your money back.")
-        } else if (playerScore > dealerScore) {
+        } else if (playerScore > dealerScore || dealerScore > 21) {
             winner = 'P'
             currentWinnings += currentBet * 2
-            renderMessage(`You win! You gained ${currentBet * 2}$ `)
+            renderMessage(`You win! You gained ${currentBet * 2}$`)
         } else {
             winner = 'D'
             currentWinnings -= currentBet
@@ -158,9 +159,10 @@ function calcPlayerWins() {
     } else {
         winner = 'D'
         currentWinnings -= currentBet
+        renderMessage(`You Bust! You lost ${currentBet}$`)
     }
-    
 }
+
 
 function calcScore(rank) {
     score = 0
@@ -237,4 +239,25 @@ function renderBoard(){
         dealerCard[element].innerHTML = ""
     }
 
+}
+
+function calcDealerHand() {
+    for (i = 0; i < dealerHand.length; i++){
+        dealerScore += calcScore(dealerHand[i].rank)
+    } 
+}
+
+function dealerDeals(){
+    calcDealerHand();
+    for (i = 0; i < 8; i++){
+    if (dealerScore < 17) {
+        dealerScore = 0
+        cardToHit = deck.dealCard(1)
+        dealerHand.push(cardToHit[0]);
+        dealerCard[dealerHand.length].innerHTML = `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`
+        calcDealerHand();
+    } else {
+        break;
+    }
+}
 }
