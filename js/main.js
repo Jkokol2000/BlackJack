@@ -12,7 +12,7 @@ let inDebt;
 let playerHand;
 let dealerHand;
 let currentBet
-let currentWinnings = 1000;
+let currentWinnings
 let playerScore;
 let dealerScore;
 let numberOfGames = 0;
@@ -46,6 +46,7 @@ let messageEl = document.querySelector('.message');
 let standButton = document.querySelector('.stand-button');
 let hitButton = document.querySelector('.hit-button');
 let nextHand = document.querySelector('.new-hand');
+let playerScoreEl = document.querySelector('.player-score');
 
 dealbutton.addEventListener("click", deal)
 //Card class that defines how the cards will be setup in the deck
@@ -116,10 +117,12 @@ dealerScore = 0;
 playerScore = 0;
 plusTenButton.disabled = false;
 minusTenButton.disabled = false;
+renderScore(playerScore);
 if (numberOfGames !== 0) {
     render("Place a bet.")
 } else {
-    render("Welcome to BlackJack!<br> Place a bet.")
+    currentWinnings = 1000;
+    render("Welcome to BlackJack! <br> Place a bet.")
 }
 }
 
@@ -140,12 +143,20 @@ function deal() {
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
     renderMessage("");
+    calcCurrentScore("P")
+    renderScore(playerScore)
+    if (playerScore >= 21) {
+        calcPlayerWins()
+    } else {
+        return;
+    }
 }
 }
 
 function calcPlayerWins() {
     revealFacedown();
     calcCurrentScore("P");
+    renderScore(playerScore)
     if (playerScore <= 21) {
         dealerDeals(dealerScore);
         if (playerScore === dealerScore) {
@@ -228,6 +239,7 @@ function hit() {
     cardToHit = deck.dealCard(1)
     playerHand.push(cardToHit[0])
     calcCurrentScore("P");
+    renderScore(playerScore)
     playerCard[playerHand.length].innerHTML = `${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`
     if (playerScore >= 21) {
         calcPlayerWins();
@@ -235,11 +247,12 @@ function hit() {
 }
 
 function render(message){
-    renderMessage(message)
-    renderBoard()
+    renderMessage(message);
+    resetBoard;
+
 }
 
-function renderBoard(){
+function resetBoard(){
     for (element in playerCard) {
         playerCard[element].innerHTML = ""
     }
@@ -278,3 +291,6 @@ function dealerDeals(){
 }
 }
 
+function renderScore(int){
+   return playerScoreEl.innerHTML = `Current Score:<br> ${int}`; 
+};
