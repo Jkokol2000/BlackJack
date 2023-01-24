@@ -14,7 +14,7 @@
         <div class="message-container"><p class="message"></p></div>
         <div class="winnings">Current Winnings: 0$</div>
         <div class="hit"><button class="hit-button">HIT</button></div>
-        <div class="bet-amount">Current Bet: 0$ </div>
+        <div class="bet-amount">Current Bet:<input class="bet-number" value="0" type="number" onkeydown="if(event.key==='.'){event.preventDefault();}"  oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"></div>
         <div class="stand"><button class="stand-button">Stand</button></div>
         <div class="player-card-1 card-container"><div class="card-image-1"></div></div>
         <div class="player-card-2 card-container"><div class="card-image-2"></div></div>
@@ -34,8 +34,6 @@
         <div class="dealer-card-8 card-container"><div class="dcard-image-8"></div></div>
         <div class="deck card-container "><div class="card back"></div></div>   
         <div class="player-score"></div>
-        <div class="increase-bet"><button class="increase-bet-button">+10$</button></div>
-        <div class="decrease-bet"><button class="decrease-bet-button">-10$</button> </div>
         <div class="deal"><button class="deal-button">DEAL ME IN!</button></div>
         <div class="next-hand"><button class="new-hand">Play Again?</button></div>
     </div>

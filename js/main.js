@@ -39,8 +39,6 @@ let dealerCard = {
 }
 let dealing = document.querySelector('.deal')
 let dealButton = document.querySelector('.deal-button');
-let plusTenButton = document.querySelector('.increase-bet-button');
-let minusTenButton = document.querySelector('.decrease-bet-button');
 let currentBetEl = document.querySelector('.bet-amount');
 let currentWinningsEl = document.querySelector('.winnings');
 let messageEl = document.querySelector('.message');
@@ -49,7 +47,10 @@ let hitButton = document.querySelector('.hit-button');
 let nextHand = document.querySelector('.new-hand');
 let playerScoreEl = document.querySelector('.player-score')
 
-dealButton.addEventListener("click", deal)
+dealButton.addEventListener("click", function(){
+    currentBet = document.querySelector(".bet-number").value
+    deal();
+})
 //Card class that defines how the cards will be setup in the deck
 class Card {
     constructor(rank, suit){
@@ -57,23 +58,6 @@ class Card {
         this.suit = suit
     }
 }
-plusTenButton.addEventListener("mousedown", function(event){
-    if (event.button === 0)
-    if (currentBet < currentWinnings) {
-    currentBet += 10;
-    currentBetEl.innerHTML = `Current Bet: ${currentBet}$`
-    } else {
-        return;
-    }
-})
-minusTenButton.addEventListener("click", function(){
-    if (currentBet !== 0) {
-    currentBet -= 10;
-    currentBetEl.innerHTML = `Current Bet: ${currentBet}$`
-    } else {
-        return
-    }
-})
 standButton.addEventListener("click", calcPlayerWins);
 hitButton.addEventListener("click", hit);
 nextHand.addEventListener("click", function() {
@@ -118,13 +102,11 @@ dealerHand = [];
 winner = null;
 dealerScore = 0;
 playerScore = 0;
-plusTenButton.disabled = false;
-minusTenButton.disabled = false;
-hitButton.disabled = false;
-dealButton.disabled = false;
+switchMultipleButtons(hitButton, standButton, nextHand);
 renderScore(playerScore);
 if (numberOfGames !== 0) {
     render("Place a bet.")
+    switchButtonVisability(dealButton);
 } else {
     currentWinnings = 1000;
     render("Welcome to BlackJack! <br> Place a bet.")
@@ -135,19 +117,21 @@ if (numberOfGames !== 0) {
 
 
 function deal() {
-    dealButton.disabled = true;
-    if (currentBet === 0) {
-        renderMessage("You must bet more than 0 dollars")
+    switchMultipleButtons(hitButton, standButton, dealButton);
+    if (currentBet == 0) {
+        renderMessage("You must bet more than 0 dollars!")
+        switchMultipleButtons(hitButton, standButton, dealButton);
+    } else if (currentBet > currentWinnings) {
+        renderMessage("You cannot bet more than what you have!")
+        switchMultipleButtons(hitButton, standButton, dealButton);
     } else {
     currentWinnings -= currentBet;
     playerHand = deck.dealCard(2)
     dealerHand = deck.dealCard(2)
     playerCard[1].classList.add(`card`, `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`)
     playerCard[2].classList.add(`card`, `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`)
-    dealerCard[2].classList.add(`card`, `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`)
+    dealerCard[2].classList.add(`card`, `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`)
     dealerCard[1].classList.add(`card`, `back`);
-    plusTenButton.disabled = true;
-    minusTenButton.disabled = true;
     renderMessage("");
     calcCurrentScore("P")
     renderScore(playerScore)
@@ -160,7 +144,6 @@ function deal() {
 }
 
 function calcPlayerWins() {
-    hitButton.disabled = true;
     revealFacedown();
     calcCurrentScore("P");
     renderScore(playerScore)
@@ -170,7 +153,7 @@ function calcPlayerWins() {
             winner = 'T'
             currentWinnings += currentBet
             renderMessage("Push! Here's your money back.")
-        } else if (playerScore > dealerScore || dealerScore > 21) {
+        } else if (playerScore > dealerScore || dealerScore > 21 || (playerScore === 21 && dealerScore !== 21)) {
             winner = 'P'
             currentWinnings += currentBet * 2
             renderMessage(`You win! You gained ${currentBet * 2}$`)
@@ -182,6 +165,7 @@ function calcPlayerWins() {
         winner = 'D'
         renderMessage(`You Bust! You lost ${currentBet}$`)
     }
+    switchMultipleButtons(hitButton, standButton, nextHand);
 }
 
 
@@ -233,7 +217,6 @@ return score
 
 function renderMessage(message) {
     messageEl.innerHTML = message;
-    currentBetEl.innerHTML = `Current Bet: ${currentBet}$`;
     currentWinningsEl.innerHTML = `Current Winnings: ${currentWinnings}$`;
   }
 
@@ -242,7 +225,6 @@ function revealFacedown(){
     dealerCard[1].classList.add(`card`, `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`)
 }
 function hit() {
-   
     cardToHit = deck.dealCard(1)
     playerHand.push(cardToHit[0])
     calcCurrentScore("P");
@@ -292,7 +274,7 @@ function dealerDeals(){
     if (dealerScore < 17) {
         cardToHit = deck.dealCard(1)
         dealerHand.push(cardToHit[0]);
-        dealerCard[dealerHand.length].classList.add((`card`, `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`));
+        dealerCard[dealerHand.length].classList.add(`card`,`${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`)
         calcCurrentScore("D");
     } else {
         break;
@@ -302,4 +284,18 @@ function dealerDeals(){
 
 function renderScore(int){
    return playerScoreEl.innerHTML = `Current Score:<br> ${int}`; 
-};
+}
+
+function switchButtonVisability(button) {
+    if (button.style.visibility === "hidden" && button.style.pointerEvents === "none") {
+        button.style.visibility = "visible";
+        button.style.pointerEvents = "auto";
+    } else {
+        button.style.visibility = "hidden";
+        button.style.pointerEvents = "none";
+    }
+}
+function switchMultipleButtons(...buttons) {
+    let args = Array.from(buttons);
+    args.forEach(switchButtonVisability);
+}
