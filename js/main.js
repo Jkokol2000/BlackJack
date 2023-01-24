@@ -292,7 +292,7 @@ function dealerDeals(){
     if (dealerScore < 17) {
         cardToHit = deck.dealCard(1)
         dealerHand.push(cardToHit[0]);
-        dealerCard[dealerHand.length].classList.add = (`card`, `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`)
+        dealerCard[dealerHand.length].classList.add((`card`, `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`));
         calcCurrentScore("D");
     } else {
         break;
