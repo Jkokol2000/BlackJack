@@ -37,7 +37,8 @@ let dealerCard = {
     '7' : document.querySelector('.dealer-card-7'),
     '8' : document.querySelector('.dealer-card-8'),
 }
-let dealbutton = document.querySelector('.deal');
+let dealing = document.querySelector('.deal')
+let dealButton = document.querySelector('.deal-button');
 let plusTenButton = document.querySelector('.increase-bet-button');
 let minusTenButton = document.querySelector('.decrease-bet-button');
 let currentBetEl = document.querySelector('.bet-amount');
@@ -46,9 +47,9 @@ let messageEl = document.querySelector('.message');
 let standButton = document.querySelector('.stand-button');
 let hitButton = document.querySelector('.hit-button');
 let nextHand = document.querySelector('.new-hand');
-let playerScoreEl = document.querySelector('.player-score');
+let playerScoreEl = document.querySelector('.player-score')
 
-dealbutton.addEventListener("click", deal)
+dealButton.addEventListener("click", deal)
 //Card class that defines how the cards will be setup in the deck
 class Card {
     constructor(rank, suit){
@@ -118,6 +119,8 @@ dealerScore = 0;
 playerScore = 0;
 plusTenButton.disabled = false;
 minusTenButton.disabled = false;
+hitButton.disabled = false;
+dealButton.disabled = false;
 renderScore(playerScore);
 if (numberOfGames !== 0) {
     render("Place a bet.")
@@ -131,6 +134,7 @@ if (numberOfGames !== 0) {
 
 
 function deal() {
+    dealButton.disabled = true;
     if (currentBet === 0) {
         renderMessage("You must bet more than 0 dollars")
     } else {
@@ -155,6 +159,7 @@ function deal() {
 }
 
 function calcPlayerWins() {
+    hitButton.disabled = true;
     revealFacedown();
     calcCurrentScore("P");
     renderScore(playerScore)
