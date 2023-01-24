@@ -130,6 +130,7 @@ function deal() {
     if (currentBet === 0) {
         renderMessage("You must bet more than 0 dollars")
     } else {
+    currentWinnings -= currentBet;
     playerHand = deck.dealCard(2)
     dealerHand = deck.dealCard(2)
     playerCard[1].innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
@@ -138,7 +139,7 @@ function deal() {
     dealerCard[1].innerHTML = `Facedown`
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
-    messageEl.innerHTML = "";
+    renderMessage("");
 }
 }
 
