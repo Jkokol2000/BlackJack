@@ -56,7 +56,8 @@ class Card {
         this.suit = suit
     }
 }
-plusTenButton.addEventListener("click", function(){
+plusTenButton.addEventListener("mousedown", function(event){
+    if (event.button === 0)
     if (currentBet < currentWinnings) {
     currentBet += 10;
     currentBetEl.innerHTML = `Current Bet: ${currentBet}$`
@@ -161,6 +162,7 @@ function calcPlayerWins() {
         dealerDeals(dealerScore);
         if (playerScore === dealerScore) {
             winner = 'T'
+            currentWinnings += currentBet
             renderMessage("Push! Here's your money back.")
         } else if (playerScore > dealerScore || dealerScore > 21) {
             winner = 'P'
@@ -168,12 +170,10 @@ function calcPlayerWins() {
             renderMessage(`You win! You gained ${currentBet * 2}$`)
         } else {
             winner = 'D'
-            currentWinnings -= currentBet
             renderMessage(`Dealer Wins! You lost ${currentBet}$`)
         }
     } else {
         winner = 'D'
-        currentWinnings -= currentBet
         renderMessage(`You Bust! You lost ${currentBet}$`)
     }
 }
@@ -248,7 +248,7 @@ function hit() {
 
 function render(message){
     renderMessage(message);
-    resetBoard;
+    resetBoard();
 
 }
 
