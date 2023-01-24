@@ -52,101 +52,83 @@ div {
     .stand { grid-area: 9 / 9 / 10 / 10; }
     .player-card-1 { 
         grid-area: 6 / 10 / 8 / 10;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .player-card-2 { 
         grid-area: 6 / 9 / 8 / 9;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .player-card-3 { 
         grid-area: 6 / 8 / 8 / 8;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .player-card-4 { 
         grid-area: 6 / 7 / 8 / 7;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .player-card-5 { 
         grid-area: 6 / 6 / 8 / 6;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .player-card-6 { 
         grid-area: 6 / 5 / 8 / 5;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .player-card-7 { 
         grid-area: 6 / 4 / 8 / 4;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .player-card-8 { 
         grid-area: 6 / 3 / 8 / 3;
-        width: 60px;
         height: 100px;
         background-image: url('./images/spades/spades-A');
     }
     .dealer-card-1 { 
         grid-area: 4 / 10 / 6 / 10; 
-        width: 60px;
         height: 100px;
     }
     .dealer-card-2 { 
         grid-area: 4 / 9 / 6 / 9; 
-        width: 60px;
         height: 100px;
     }
     .dealer-card-3 { 
         grid-area: 4 / 8 / 6 / 8; 
-        width: 60px;
         height: 100px;
     }
     .dealer-card-4 { 
-        grid-area: 4 / 7 / 6 / 7; 
-        width: 60px;
+        grid-area: 4 / 7 / 6 / 7;
         height: 100px;
     }
     .dealer-card-5 { 
         grid-area: 4 / 6 / 6 / 6; 
-        width: 60px;
         height: 100px;
     }
     .dealer-card-6 { 
-        grid-area: 4 / 5 / 6 / 5; 
-        width: 60px;
+        grid-area: 4 / 5 / 6 / 5;
         height: 100px;
     }
     .dealer-card-7 { 
-        grid-area: 4 / 4 / 6 / 4; 
-        width: 60px;
+        grid-area: 4 / 4 / 6 / 4;
         height: 100px;
     }
     .dealer-card-8 { 
         grid-area: 4 / 3 / 6 / 3; 
-        width: 60px;
         height: 100px;
     }
     .dealer-card-9 { 
         grid-area: 4 / 2 / 6 / 2; 
-        width: 60px;
         height: 100px;
     }
 
     .deck { 
         grid-area: 4 / 11 / 6 / 11;
-        width: 60px;
         height: 100px;
         border: 2px solid #000;
      }
@@ -161,8 +143,6 @@ div {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        border: 1px solid black;
-        padding: 10px;
         margin: 3px;
     }
 
@@ -178,8 +158,6 @@ div {
   height: 5.5em;
   /* Add a default background color and border. */
   background-color: #fff;
-  border-radius: 0.20em;
-  border: 1px solid #c3c3c3;
   /* Scale and set the background settings. */
   background-repeat: no-repeat;
   background-position: center center;

@@ -18,24 +18,24 @@ let dealerScore;
 let numberOfGames = 0;
 
 let playerCard = {
-    '1' : document.querySelector('.player-card-1'),
-    '2' : document.querySelector('.player-card-2'),
-    '3' : document.querySelector('.player-card-3'),
-    '4' : document.querySelector('.player-card-4'),
-    '5' : document.querySelector('.player-card-5'),
-    '6' : document.querySelector('.player-card-6'),
-    '7' : document.querySelector('.player-card-7'),
-    '8' : document.querySelector('.player-card-8')
+    '1' : document.querySelector('.card-image-1'),
+    '2' : document.querySelector('.card-image-2'),
+    '3' : document.querySelector('.card-image-3'),
+    '4' : document.querySelector('.card-image-4'),
+    '5' : document.querySelector('.card-image-5'),
+    '6' : document.querySelector('.card-image-6'),
+    '7' : document.querySelector('.card-image-7'),
+    '8' : document.querySelector('.card-image-8')
 }
 let dealerCard = {
-    '1' : document.querySelector('.dealer-card-1'),
-    '2' : document.querySelector('.dealer-card-2'),
-    '3' : document.querySelector('.dealer-card-3'),
-    '4' : document.querySelector('.dealer-card-4'),
-    '5' : document.querySelector('.dealer-card-5'),
-    '6' : document.querySelector('.dealer-card-6'),
-    '7' : document.querySelector('.dealer-card-7'),
-    '8' : document.querySelector('.dealer-card-8'),
+    '1' : document.querySelector('.dcard-image-1'),
+    '2' : document.querySelector('.dcard-image-2'),
+    '3' : document.querySelector('.dcard-image-3'),
+    '4' : document.querySelector('.dcard-image-4'),
+    '5' : document.querySelector('.dcard-image-5'),
+    '6' : document.querySelector('.dcard-image-6'),
+    '7' : document.querySelector('.dcard-image-7'),
+    '8' : document.querySelector('.dcard-image-8'),
 }
 let dealing = document.querySelector('.deal')
 let dealButton = document.querySelector('.deal-button');
@@ -90,6 +90,7 @@ class Deck {
             for(let i=0; i < suits.length; i++){
                 for(let j = 0; j < ranks.length; j++){
                     this.deck.push(new Card(ranks[j], suits[i]));
+                    console.log(this.deck);
                 }
             }
         }
@@ -141,10 +142,10 @@ function deal() {
     currentWinnings -= currentBet;
     playerHand = deck.dealCard(2)
     dealerHand = deck.dealCard(2)
-    playerCard[1].innerHTML = `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`
-    playerCard[2].innerHTML = `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`
-    dealerCard[2].innerHTML = `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`
-    dealerCard[1].innerHTML = `Facedown`
+    playerCard[1].classList.add(`card`, `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`)
+    playerCard[2].classList.add(`card`, `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`)
+    dealerCard[2].classList.add(`card`, `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`)
+    dealerCard[1].classList.add(`card`, `back`);
     plusTenButton.disabled = true;
     minusTenButton.disabled = true;
     renderMessage("");
@@ -237,7 +238,8 @@ function renderMessage(message) {
   }
 
 function revealFacedown(){
-    dealerCard[1].innerHTML = `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`
+    dealerCard[1].classList.remove('back')
+    dealerCard[1].classList.add(`card`, `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`)
 }
 function hit() {
    
@@ -245,7 +247,7 @@ function hit() {
     playerHand.push(cardToHit[0])
     calcCurrentScore("P");
     renderScore(playerScore)
-    playerCard[playerHand.length].innerHTML = `${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`
+    playerCard[playerHand.length].classList.add(`card`,`${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`)
     if (playerScore >= 21) {
         calcPlayerWins();
     }
@@ -259,10 +261,12 @@ function render(message){
 
 function resetBoard(){
     for (element in playerCard) {
-        playerCard[element].innerHTML = ""
+        playerCard[element].className = ''
+        playerCard[element].classList.add(`card-image-${element}`)
     }
     for (element in dealerCard) {
-        dealerCard[element].innerHTML = ""
+        dealerCard[element].className = ''
+        dealerCard[element].classList.add(`dcard-image-${element}`)
     }
 
 }
@@ -288,7 +292,7 @@ function dealerDeals(){
     if (dealerScore < 17) {
         cardToHit = deck.dealCard(1)
         dealerHand.push(cardToHit[0]);
-        dealerCard[dealerHand.length].innerHTML = `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`
+        dealerCard[dealerHand.length].classList.add = (`card`, `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`)
         calcCurrentScore("D");
     } else {
         break;
