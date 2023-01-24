@@ -13,10 +13,11 @@ let playerHand;
 let dealerHand;
 let currentBet
 let currentWinnings
+let currentChips
 let playerScore;
 let dealerScore;
-let numberOfGames = 0;
 
+let numberOfGames = 0;
 let playerCard = {
     '1' : document.querySelector('.card-image-1'),
     '2' : document.querySelector('.card-image-2'),
@@ -46,6 +47,7 @@ let standButton = document.querySelector('.stand-button');
 let hitButton = document.querySelector('.hit-button');
 let nextHand = document.querySelector('.new-hand');
 let playerScoreEl = document.querySelector('.player-score')
+let currentChipsEl = document.querySelector('.chips');
 
 dealButton.addEventListener("click", function(){
     currentBet = document.querySelector(".bet-number").value
@@ -91,7 +93,9 @@ class Deck {
     }
 }
 }
+
 init();
+switchMultipleButtons(hitButton, standButton);
 function init() {
 currentBet = 0;
 deck = new Deck();
@@ -102,13 +106,14 @@ dealerHand = [];
 winner = null;
 dealerScore = 0;
 playerScore = 0;
-switchMultipleButtons(hitButton, standButton, nextHand);
+switchMultipleButtons(nextHand);
 renderScore(playerScore);
 if (numberOfGames !== 0) {
     render("Place a bet.")
     switchButtonVisability(dealButton);
 } else {
-    currentWinnings = 1000;
+    currentWinnings = 0;
+    currentChips = 1000;
     render("Welcome to BlackJack! <br> Place a bet.")
 }
 }
@@ -121,11 +126,12 @@ function deal() {
     if (currentBet == 0) {
         renderMessage("You must bet more than 0 dollars!")
         switchMultipleButtons(hitButton, standButton, dealButton);
-    } else if (currentBet > currentWinnings) {
+    } else if (currentBet > currentChips) {
         renderMessage("You cannot bet more than what you have!")
         switchMultipleButtons(hitButton, standButton, dealButton);
     } else {
     currentWinnings -= currentBet;
+    currentChips -= currentBet;
     playerHand = deck.dealCard(2)
     dealerHand = deck.dealCard(2)
     playerCard[1].classList.add(`card`, `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`)
@@ -152,11 +158,13 @@ function calcPlayerWins() {
         if (playerScore === dealerScore) {
             winner = 'T'
             currentWinnings += currentBet
+            currentChips += currentBet
             renderMessage("Push! Here's your money back.")
         } else if (playerScore > dealerScore || dealerScore > 21 || (playerScore === 21 && dealerScore !== 21)) {
             winner = 'P'
             currentWinnings += currentBet * 2
-            renderMessage(`You win! You gained ${currentBet * 2}$`)
+            currentChips += currentBet * 2
+            renderMessage(`You win! You won ${currentBet * 2}$`)
         } else {
             winner = 'D'
             renderMessage(`Dealer Wins! You lost ${currentBet}$`)
@@ -218,6 +226,7 @@ return score
 function renderMessage(message) {
     messageEl.innerHTML = message;
     currentWinningsEl.innerHTML = `Current Winnings: ${currentWinnings}$`;
+    currentChipsEl.innerHTML = `Current Chips: ${currentChips}$`
   }
 
 function revealFacedown(){

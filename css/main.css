@@ -1,3 +1,6 @@
+body {
+    font-family: 'Roboto Slab', serif;
+}
 .parent {
     display: grid;
     grid-template-columns: repeat(13, 1fr);
@@ -498,4 +501,8 @@ div {
 
 .new-hand {
     width: fit-content;
+}
+
+.chips {
+    grid-area: 2 / 6 / 4 / 9;
 }

@@ -7,12 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="parent">
         <div class="board"> </div>
         <div class="message-container"><p class="message"></p></div>
         <div class="winnings">Current Winnings: 0$</div>
+        <div class="chips">Current Chips: 0$</div>
         <div class="hit"><button class="hit-button">HIT</button></div>
         <div class="bet-amount">Current Bet:<input class="bet-number" value="0" type="number" onkeydown="if(event.key==='.'){event.preventDefault();}"  oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"></div>
         <div class="stand"><button class="stand-button">Stand</button></div>
