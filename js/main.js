@@ -1,3 +1,4 @@
+/* Constants */
 const SUITICONS = {
     'spades':'s',
     'hearts' : 'h',
@@ -5,7 +6,7 @@ const SUITICONS = {
     'clubs' : 'c'
 }
 
-
+/* State Variables */
 let deck
 let winner;
 let inDebt;
@@ -16,8 +17,9 @@ let currentWinnings
 let currentChips
 let playerScore;
 let dealerScore;
-
 let numberOfGames = 0;
+
+/* Cached Elements */
 let playerCard = {
     '1' : document.querySelector('.card-image-1'),
     '2' : document.querySelector('.card-image-2'),
@@ -46,13 +48,29 @@ let messageEl = document.querySelector('.message');
 let standButton = document.querySelector('.stand-button');
 let hitButton = document.querySelector('.hit-button');
 let nextHand = document.querySelector('.new-hand');
-let playerScoreEl = document.querySelector('.player-score')
+let playerScoreEl = document.querySelector('.player-score');
 let currentChipsEl = document.querySelector('.chips');
+let loanButton = document.querySelector('.loan-button');
 
+/* Event Listeners: */
 dealButton.addEventListener("click", function(){
     currentBet = document.querySelector(".bet-number").value
     deal();
 })
+standButton.addEventListener("click", calcPlayerWins);
+hitButton.addEventListener("click", hit);
+nextHand.addEventListener("click", function() {
+    numberOfGames++;
+    init();
+})
+loanButton.addEventListener("click", function() {
+    currentChips += 1000
+    currentWinnings -= 1000
+    switchButtonVisability(loanButton, "hidden")
+    init();
+})
+
+/* Functions and Classes */
 //Card class that defines how the cards will be setup in the deck
 class Card {
     constructor(rank, suit){
@@ -60,17 +78,12 @@ class Card {
         this.suit = suit
     }
 }
-standButton.addEventListener("click", calcPlayerWins);
-hitButton.addEventListener("click", hit);
-nextHand.addEventListener("click", function() {
-    numberOfGames++;
-    init();
-})
 // Deck class that allows me to create a deck, shuffle it, and deal the cards
 class Deck {
     constructor(){
         this.deck = [];
-        this.populateDeck  = function(){
+    }
+        populateDeck(){
             const ranks = ["02", "03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K", "A"];
             const suits = ["hearts", "diamonds", "clubs", "spades"];
             for(let i=0; i < suits.length; i++){
@@ -80,22 +93,23 @@ class Deck {
                 }
             }
         }
-        this.shuffle = function(){
+        shuffle(){
             for (let i = this.deck.length - 1; i > 0; i--) {
                 let j = Math.floor(Math.random() * i);
                 let temp = this.deck[i];
                 this.deck[i] = this.deck[j];
                 this.deck[j] = temp;
             }
-        this.dealCard = function(int){
+        }
+        dealCard(int){
         return this.deck.splice(0,int);
         }
     }
-}
-}
 
 init();
-switchMultipleButtons(hitButton, standButton);
+switchButtonVisability(hitButton, "hidden")
+switchButtonVisability(standButton, "hidden")
+switchButtonVisability(loanButton, "hidden")
 function init() {
 currentBet = 0;
 deck = new Deck();
@@ -106,11 +120,14 @@ dealerHand = [];
 winner = null;
 dealerScore = 0;
 playerScore = 0;
-switchMultipleButtons(nextHand);
+switchButtonVisability(nextHand, "hidden");
 renderScore(playerScore);
-if (numberOfGames !== 0) {
+if (numberOfGames !== 0 && currentChips > 0) {
     render("Place a bet.")
-    switchButtonVisability(dealButton);
+    switchButtonVisability(dealButton, "visible");
+} else if (currentChips === 0) {
+    render("You are out of chips! Want a loan?")
+    switchButtonVisability(loanButton, "visible");
 } else {
     currentWinnings = 0;
     currentChips = 1000;
@@ -122,13 +139,19 @@ if (numberOfGames !== 0) {
 
 
 function deal() {
-    switchMultipleButtons(hitButton, standButton, dealButton);
+    switchButtonVisability(hitButton, "visible");
+    switchButtonVisability(standButton, "visible");
+    switchButtonVisability(dealButton, "hidden");
     if (currentBet == 0) {
         renderMessage("You must bet more than 0 dollars!")
-        switchMultipleButtons(hitButton, standButton, dealButton);
+        switchButtonVisability(hitButton, "hidden");
+        switchButtonVisability(standButton, "hidden");
+        switchButtonVisability(dealButton, "visible");
     } else if (currentBet > currentChips) {
         renderMessage("You cannot bet more than what you have!")
-        switchMultipleButtons(hitButton, standButton, dealButton);
+        switchButtonVisability(hitButton, "hidden");
+        switchButtonVisability(standButton, "hidden");
+        switchButtonVisability(dealButton, "visible");
     } else {
     currentWinnings -= currentBet;
     currentChips -= currentBet;
@@ -152,7 +175,6 @@ function deal() {
 function calcPlayerWins() {
     revealFacedown();
     calcCurrentScore("P");
-    renderScore(playerScore)
     if (playerScore <= 21) {
         dealerDeals(dealerScore);
         if (playerScore === dealerScore) {
@@ -173,7 +195,9 @@ function calcPlayerWins() {
         winner = 'D'
         renderMessage(`You Bust! You lost ${currentBet}$`)
     }
-    switchMultipleButtons(hitButton, standButton, nextHand);
+    switchButtonVisability(hitButton, "hidden");
+    switchButtonVisability(standButton, "hidden");
+    switchButtonVisability(nextHand, "visible");
 }
 
 
@@ -295,16 +319,14 @@ function renderScore(int){
    return playerScoreEl.innerHTML = `Current Score:<br> ${int}`; 
 }
 
-function switchButtonVisability(button) {
-    if (button.style.visibility === "hidden" && button.style.pointerEvents === "none") {
+function switchButtonVisability(button, visability) {
+    if (visability === "visible") {
         button.style.visibility = "visible";
         button.style.pointerEvents = "auto";
-    } else {
+    } else if (visability === "hidden") {
         button.style.visibility = "hidden";
         button.style.pointerEvents = "none";
+    } else {
+        return;
     }
-}
-function switchMultipleButtons(...buttons) {
-    let args = Array.from(buttons);
-    args.forEach(switchButtonVisability);
 }

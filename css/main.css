@@ -506,3 +506,12 @@ div {
 .chips {
     grid-area: 2 / 6 / 4 / 9;
 }
+
+.loan {
+    grid-area: 11 / 6 / 12 / 9;
+    width: 100px;
+}
+
+.loan-button {
+    width: 100px;
+}
