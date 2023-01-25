@@ -1,9 +1,9 @@
 /* Constants */
 const SUITICONS = {
-    'spades':'s',
-    'hearts' : 'h',
-    'diamonds' : 'd',
-    'clubs' : 'c'
+    'spades': 's',
+    'hearts': 'h',
+    'diamonds': 'd',
+    'clubs': 'c'
 }
 
 /* State Variables */
@@ -21,24 +21,24 @@ let numberOfGames = 0;
 
 /* Cached Elements */
 let playerCard = {
-    '1' : document.querySelector('.card-image-1'),
-    '2' : document.querySelector('.card-image-2'),
-    '3' : document.querySelector('.card-image-3'),
-    '4' : document.querySelector('.card-image-4'),
-    '5' : document.querySelector('.card-image-5'),
-    '6' : document.querySelector('.card-image-6'),
-    '7' : document.querySelector('.card-image-7'),
-    '8' : document.querySelector('.card-image-8')
+    '1': document.querySelector('.card-image-1'),
+    '2': document.querySelector('.card-image-2'),
+    '3': document.querySelector('.card-image-3'),
+    '4': document.querySelector('.card-image-4'),
+    '5': document.querySelector('.card-image-5'),
+    '6': document.querySelector('.card-image-6'),
+    '7': document.querySelector('.card-image-7'),
+    '8': document.querySelector('.card-image-8')
 }
 let dealerCard = {
-    '1' : document.querySelector('.dcard-image-1'),
-    '2' : document.querySelector('.dcard-image-2'),
-    '3' : document.querySelector('.dcard-image-3'),
-    '4' : document.querySelector('.dcard-image-4'),
-    '5' : document.querySelector('.dcard-image-5'),
-    '6' : document.querySelector('.dcard-image-6'),
-    '7' : document.querySelector('.dcard-image-7'),
-    '8' : document.querySelector('.dcard-image-8'),
+    '1': document.querySelector('.dcard-image-1'),
+    '2': document.querySelector('.dcard-image-2'),
+    '3': document.querySelector('.dcard-image-3'),
+    '4': document.querySelector('.dcard-image-4'),
+    '5': document.querySelector('.dcard-image-5'),
+    '6': document.querySelector('.dcard-image-6'),
+    '7': document.querySelector('.dcard-image-7'),
+    '8': document.querySelector('.dcard-image-8'),
 }
 let dealing = document.querySelector('.deal')
 let dealButton = document.querySelector('.deal-button');
@@ -53,17 +53,17 @@ let currentChipsEl = document.querySelector('.chips');
 let loanButton = document.querySelector('.loan-button');
 
 /* Event Listeners: */
-dealButton.addEventListener("click", function(){
-    currentBet = document.querySelector(".bet-number").value
+dealButton.addEventListener("click", function () {
+    currentBet = parseInt(document.querySelector(".bet-number").value);
     deal();
 })
 standButton.addEventListener("click", calcPlayerWins);
 hitButton.addEventListener("click", hit);
-nextHand.addEventListener("click", function() {
+nextHand.addEventListener("click", function () {
     numberOfGames++;
     init();
 })
-loanButton.addEventListener("click", function() {
+loanButton.addEventListener("click", function () {
     currentChips += 1000
     currentWinnings -= 1000
     switchButtonVisability(loanButton, "hidden")
@@ -73,66 +73,65 @@ loanButton.addEventListener("click", function() {
 /* Functions and Classes */
 //Card class that defines how the cards will be setup in the deck
 class Card {
-    constructor(rank, suit){
+    constructor(rank, suit) {
         this.rank = rank
         this.suit = suit
     }
 }
 // Deck class that allows me to create a deck, shuffle it, and deal the cards
 class Deck {
-    constructor(){
+    constructor() {
         this.deck = [];
     }
-        populateDeck(){
-            const ranks = ["02", "03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K", "A"];
-            const suits = ["hearts", "diamonds", "clubs", "spades"];
-            for(let i=0; i < suits.length; i++){
-                for(let j = 0; j < ranks.length; j++){
-                    this.deck.push(new Card(ranks[j], suits[i]));
-                    console.log(this.deck);
-                }
+    populateDeck() {
+        const ranks = ["02", "03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K", "A"];
+        const suits = ["hearts", "diamonds", "clubs", "spades"];
+        for (let i = 0; i < suits.length; i++) {
+            for (let j = 0; j < ranks.length; j++) {
+                this.deck.push(new Card(ranks[j], suits[i]));
             }
-        }
-        shuffle(){
-            for (let i = this.deck.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * i);
-                let temp = this.deck[i];
-                this.deck[i] = this.deck[j];
-                this.deck[j] = temp;
-            }
-        }
-        dealCard(int){
-        return this.deck.splice(0,int);
         }
     }
+    shuffle() {
+        for (let i = this.deck.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * i);
+            let temp = this.deck[i];
+            this.deck[i] = this.deck[j];
+            this.deck[j] = temp;
+        }
+    }
+    dealCard(int) {
+        return this.deck.splice(0, int);
+    }
+}
 
 init();
 switchButtonVisability(hitButton, "hidden")
 switchButtonVisability(standButton, "hidden")
 switchButtonVisability(loanButton, "hidden")
 function init() {
-currentBet = 0;
-deck = new Deck();
-deck.populateDeck();
-deck.shuffle();
-playerHand = [];
-dealerHand = [];
-winner = null;
-dealerScore = 0;
-playerScore = 0;
-switchButtonVisability(nextHand, "hidden");
-renderScore(playerScore);
-if (numberOfGames !== 0 && currentChips > 0) {
-    render("Place a bet.")
-    switchButtonVisability(dealButton, "visible");
-} else if (currentChips === 0) {
-    render("You are out of chips! Want a loan?")
-    switchButtonVisability(loanButton, "visible");
-} else {
-    currentWinnings = 0;
-    currentChips = 1000;
-    render("Welcome to BlackJack! <br> Place a bet.")
-}
+    currentBet = 0;
+    deck = new Deck();
+    deck.populateDeck();
+    deck.shuffle();
+    playerHand = [];
+    dealerHand = [];
+    winner = null;
+    dealerScore = 0;
+    playerScore = 0;
+    switchButtonVisability(nextHand, "hidden");
+    renderScore(playerScore);
+    if (numberOfGames !== 0 && currentChips > 0) {
+        render("Place a bet.")
+        switchButtonVisability(dealButton, "visible");
+    } else if (currentChips === 0) {
+        render("You are out of chips! Want a loan?")
+        switchButtonVisability(loanButton, "visible");
+    } else {
+        currentWinnings = 0;
+        currentChips = 1000;
+        render("Welcome to BlackJack! <br> Place a bet.")
+    }
 }
 
 
@@ -153,34 +152,42 @@ function deal() {
         switchButtonVisability(standButton, "hidden");
         switchButtonVisability(dealButton, "visible");
     } else {
-    currentWinnings -= currentBet;
-    currentChips -= currentBet;
-    playerHand = deck.dealCard(2)
-    dealerHand = deck.dealCard(2)
-    playerCard[1].classList.add(`card`, `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`)
-    playerCard[2].classList.add(`card`, `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`)
-    dealerCard[2].classList.add(`card`, `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`)
-    dealerCard[1].classList.add(`card`, `back`);
-    renderMessage("");
-    calcCurrentScore("P")
-    renderScore(playerScore)
-    if (playerScore >= 21) {
-        calcPlayerWins()
-    } else {
-        return;
+        console.log(currentBet);
+        currentWinnings -= currentBet;
+        console.log(currentWinnings)
+        console.log(currentBet)
+        currentChips -= currentBet;
+        console.log(currentChips)
+        console.log(currentBet);
+        playerHand = deck.dealCard(2)
+        dealerHand = deck.dealCard(2)
+        playerCard[1].classList.add(`card`, `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`)
+        playerCard[2].classList.add(`card`, `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`)
+        dealerCard[2].classList.add(`card`, `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`)
+        dealerCard[1].classList.add(`card`, `back`);
+        renderMessage("");
+        calcCurrentScore("P")
+        renderScore(playerScore)
+        if (playerScore >= 21 ) {
+            calcPlayerWins()
+        } else {
+            return;
+        }
     }
-}
 }
 
 function calcPlayerWins() {
     revealFacedown();
-    calcCurrentScore("P");
     if (playerScore <= 21) {
         dealerDeals(dealerScore);
         if (playerScore === dealerScore) {
             winner = 'T'
             currentWinnings += currentBet
+            console.log(currentWinnings)
+            console.log(currentBet)
             currentChips += currentBet
+            console.log(currentChips, "This is after a tie")
+            console.log(currentBet)
             renderMessage("Push! Here's your money back.")
         } else if (playerScore > dealerScore || dealerScore > 21 || (playerScore === 21 && dealerScore !== 21)) {
             winner = 'P'
@@ -244,16 +251,25 @@ function calcScore(rank) {
             score += 13
             break;
     }
-return score
+    return score
 }
 
 function renderMessage(message) {
     messageEl.innerHTML = message;
     currentWinningsEl.innerHTML = `Current Winnings: ${currentWinnings}$`;
     currentChipsEl.innerHTML = `Current Chips: ${currentChips}$`
-  }
+}
 
-function revealFacedown(){
+function renderCards() {
+    playerCard[1].classList.add(`card`, `${SUITICONS[playerHand[0].suit]}${playerHand[0].rank}`)
+    playerCard[2].classList.add(`card`, `${SUITICONS[playerHand[1].suit]}${playerHand[1].rank}`)
+    dealerCard[2].classList.add(`card`, `${SUITICONS[dealerHand[1].suit]}${dealerHand[1].rank}`)
+    dealerCard[1].classList.add(`card`, `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`)
+    calcCurrentScore("P");
+    calcCurrentScore("D");
+}
+
+function revealFacedown() {
     dealerCard[1].classList.remove('back')
     dealerCard[1].classList.add(`card`, `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`)
 }
@@ -262,19 +278,19 @@ function hit() {
     playerHand.push(cardToHit[0])
     calcCurrentScore("P");
     renderScore(playerScore)
-    playerCard[playerHand.length].classList.add(`card`,`${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`)
+    playerCard[playerHand.length].classList.add(`card`, `${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`)
     if (playerScore >= 21) {
         calcPlayerWins();
     }
 }
 
-function render(message){
+function render(message) {
     renderMessage(message);
     resetBoard();
 
 }
 
-function resetBoard(){
+function resetBoard() {
     for (element in playerCard) {
         playerCard[element].className = ''
         playerCard[element].classList.add(`card-image-${element}`)
@@ -289,34 +305,34 @@ function resetBoard(){
 function calcCurrentScore(PorD) {
     if (PorD === "D") {
         dealerScore = 0
-    for (i = 0; i < dealerHand.length; i++){
-        dealerScore += calcScore(dealerHand[i].rank)
-    } 
-} else if (PorD === "P") {
-    playerScore = 0
-    for (i = 0; i < playerHand.length; i++){
-        playerScore += calcScore(playerHand[i].rank)
-    }
-} else {
-    return console.log("Neither Player nor Dealer given")
-}
-}
-function dealerDeals(){
-    calcCurrentScore("D");
-    for (i = 0; i < 8; i++){
-    if (dealerScore < 17) {
-        cardToHit = deck.dealCard(1)
-        dealerHand.push(cardToHit[0]);
-        dealerCard[dealerHand.length].classList.add(`card`,`${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`)
-        calcCurrentScore("D");
+        for (i = 0; i < dealerHand.length; i++) {
+            dealerScore += calcScore(dealerHand[i].rank)
+        }
+    } else if (PorD === "P") {
+        playerScore = 0
+        for (i = 0; i < playerHand.length; i++) {
+            playerScore += calcScore(playerHand[i].rank)
+        }
     } else {
-        break;
+        return console.log("Neither Player nor Dealer given")
     }
 }
+function dealerDeals() {
+    calcCurrentScore("D");
+    for (i = 0; i < 8; i++) {
+        if (dealerScore < 17) {
+            cardToHit = deck.dealCard(1)
+            dealerHand.push(cardToHit[0]);
+            dealerCard[dealerHand.length].classList.add(`card`, `${SUITICONS[dealerHand[dealerHand.length - 1].suit]}${dealerHand[dealerHand.length - 1].rank}`)
+            calcCurrentScore("D");
+        } else {
+            break;
+        }
+    }
 }
 
-function renderScore(int){
-   return playerScoreEl.innerHTML = `Current Score:<br> ${int}`; 
+function renderScore(int) {
+    return playerScoreEl.innerHTML = `Current Score:<br> ${int}`;
 }
 
 function switchButtonVisability(button, visability) {
