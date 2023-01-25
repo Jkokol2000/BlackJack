@@ -128,6 +128,7 @@ function init() {
         switchButtonVisability(loanButton, "visible");
     } else {
         currentWinnings = 0;
+        console.log("Jimmoih")
         currentChips = 1000;
         render("Welcome to BlackJack! <br> Place a bet.");
     }
