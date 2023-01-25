@@ -174,21 +174,30 @@ function deal() {
 function calcPlayerWins() {
     revealFacedown();
     if (playerScore <= 21) {
-        dealerDeals(dealerScore);
-        if (playerScore === dealerScore) {
+        if ((playerScore === 21 && dealerScore !== 21)){
+            winner = 'P'
+            currentWinnings += currentBet * 2;
+            currentChips += currentBet * 2;
+            renderMessage(`Blackjack! You won ${currentBet * 2}$`)
+        }else{
+            dealerDeals();
+            if (playerScore === dealerScore) {
             winner = 'T';
             currentWinnings += currentBet;
             currentChips += currentBet;
             renderMessage("Push! Here's your money back.");
-        } else if (playerScore > dealerScore || dealerScore > 21 || (playerScore === 21 && dealerScore !== 21)) {
+    
+            } else if (playerScore > dealerScore || dealerScore > 21) {
             winner = 'P';
             currentWinnings += currentBet * 2;
             currentChips += currentBet * 2;
             renderMessage(`You win! You won ${currentBet * 2}$`);
+            
         } else {
             winner = 'D';
             renderMessage(`Dealer Wins! You lost ${currentBet}$`);
         }
+    }
     } else {
         winner = 'D';
         renderMessage(`You Bust! You lost ${currentBet}$`);
@@ -312,7 +321,7 @@ function dealerDeals() {
 }
 
 function renderScore(int) {
-    return playerScoreEl.innerHTML = `Current Score:<br> ${int}`;
+    return playerScoreEl.innerHTML = `Current Score:<br> <span class="score-number">${int}</span>`;
 }
 
 function switchButtonVisability(button, visability) {
