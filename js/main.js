@@ -115,8 +115,8 @@ class Deck {
         return this.deck.splice(0, int);
     }
 }
-audio.volume = .25;
 init();
+audio.volume = .25;
 switchButtonVisability(hitButton, "hidden");
 switchButtonVisability(standButton, "hidden");
 switchButtonVisability(loanButton, "hidden");
