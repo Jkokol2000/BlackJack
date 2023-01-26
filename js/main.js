@@ -1,5 +1,3 @@
-/*jshint esversion: 6 */
-
 /* Constants */
 const SUITICONS = {
     'spades': 's',
@@ -50,6 +48,8 @@ let nextHand = document.querySelector('.new-hand');
 let playerScoreEl = document.querySelector('.player-score');
 let currentChipsEl = document.querySelector('.chips');
 let loanButton = document.querySelector('.loan-button');
+let audio = document.querySelector("audio")
+let muteButton = document.querySelector(".mute-button")
 
 /* Event Listeners: */
 dealButton.addEventListener("click", function () {
@@ -68,6 +68,18 @@ loanButton.addEventListener("click", function () {
     switchButtonVisability(loanButton, "hidden");
     init();
 });
+muteButton.addEventListener("click", function() {
+    if (audio.volume > 0) {
+        audio.volume = 0;
+        muteButton.style.backgroundImage = 'url("images/5525053.png")';
+        muteButton.style.backgroundSize = "30px";
+    } else {
+        audio.volume = .25;
+        audio.currentTime = 0;
+        muteButton.style.backgroundImage = 'url("images/mute.png")';
+        muteButton.style.backgroundSize = "20px"
+    }
+})
 
 /* Functions and Classes */
 //Card class that defines how the cards will be setup in the deck
@@ -103,7 +115,7 @@ class Deck {
         return this.deck.splice(0, int);
     }
 }
-
+audio.volume = .25;
 init();
 switchButtonVisability(hitButton, "hidden");
 switchButtonVisability(standButton, "hidden");
@@ -305,6 +317,7 @@ function calcCurrentScore(PorD) {
             playerScore += calcScore(playerHand[i].rank);
         }
 }
+
 }
 function dealerDeals() {
     calcCurrentScore("D");

@@ -8,6 +8,27 @@ body {
     font-family: 'Roboto Slab', serif;
 
 }
+embed {
+    position: absolute;
+    top:0;
+    right:0;
+    
+}
+audio {
+    height: 0;
+    width: 0;
+}
+.mute-button {
+    background: white;
+    border: 0;
+    background-image: url("../images/mute.png");
+    height: 40px;
+    width: 40px;
+    background-size: 20px auto;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
 .parent {
     display: grid;
     grid-template-columns: repeat(13, 1fr);
@@ -68,42 +89,34 @@ div {
     .player-card-1 { 
         grid-area: 6 / 10 / 8 / 10;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .player-card-2 { 
         grid-area: 6 / 9 / 8 / 9;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .player-card-3 { 
         grid-area: 6 / 8 / 8 / 8;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .player-card-4 { 
         grid-area: 6 / 7 / 8 / 7;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .player-card-5 { 
         grid-area: 6 / 6 / 8 / 6;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .player-card-6 { 
         grid-area: 6 / 5 / 8 / 5;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .player-card-7 { 
         grid-area: 6 / 4 / 8 / 4;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .player-card-8 { 
         grid-area: 6 / 3 / 8 / 3;
         height: 100px;
-        background-image: url('./images/spades/spades-A');
     }
     .dealer-card-1 { 
         grid-area: 4 / 10 / 6 / 10; 
