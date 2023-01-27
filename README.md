@@ -19,12 +19,11 @@ A classic card game where the player competes against the dealer, trying to get 
 
 ## Next Steps
 
-- Adding an option for splitting pairs.
-- Adding an option for taking insurance.
-- Adding an option for doubling down.
-- Adding more advanced UI/UX.
-- Adding more advanced game rules.
-- Adding save and load functionality.
+- Adding additional options for to make the game closer to BlackJack, such as doubling and splitting hands.
+- Change the way the deck shuffle logic works so that the player cannot immediately lose if they bust immediately.
+- Improve UI/UX with shuffling animations, better text, and a visual for the dealer.
+- Fix the music logic so that it plays on game load, maybe add a menu before game start so that the player interacts with Chrome first.
+- Add a storyline (This is more of a personal thing, I think a horror game type thing where you sell your soul if you take too many loans).
 
 ![Base Screen](images/Base%20Game%20Screenshot.png)
 
