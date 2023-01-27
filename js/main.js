@@ -71,13 +71,13 @@ loanButton.addEventListener("click", function () {
 muteButton.addEventListener("click", function() {
     if (audio.volume > 0) {
         audio.volume = 0;
-        muteButton.style.backgroundImage = 'url("images/5525053.png")';
-        muteButton.style.backgroundSize = "30px";
+        muteButton.style.backgroundImage = 'url("images/mute.png")';
+        muteButton.style.backgroundSize = "20px";
     } else {
         audio.volume = .25;
         audio.currentTime = 0;
-        muteButton.style.backgroundImage = 'url("images/mute.png")';
-        muteButton.style.backgroundSize = "20px"
+        muteButton.style.backgroundImage = 'url("images/5525053.png")';
+        muteButton.style.backgroundSize = "30px"
     }
 })
 
@@ -90,6 +90,7 @@ class Card {
     }
 }
 // Deck class that allows me to create a deck, shuffle it, and deal the cards
+
 class Deck {
     constructor() {
         this.deck = [];
@@ -116,11 +117,12 @@ class Deck {
     }
 }
 init();
-audio.volume = .25;
+audio.volume = 0
 switchButtonVisability(hitButton, "hidden");
 switchButtonVisability(standButton, "hidden");
 switchButtonVisability(loanButton, "hidden");
 function init() {
+    audio.muted = false;
     currentBet = 0;
     deck = new Deck();
     deck.populateDeck();
@@ -140,7 +142,6 @@ function init() {
         switchButtonVisability(loanButton, "visible");
     } else {
         currentWinnings = 0;
-        console.log("Jimmoih")
         currentChips = 1000;
         render("Welcome to BlackJack! <br> Place a bet.");
     }
