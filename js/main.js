@@ -48,21 +48,21 @@ let nextHand = document.querySelector('.new-hand');
 let playerScoreEl = document.querySelector('.player-score');
 let currentChipsEl = document.querySelector('.chips');
 let loanButton = document.querySelector('.loan-button');
-let audio = document.querySelector("audio")
-let muteButton = document.querySelector(".mute-button")
+let audio = document.querySelector("audio");
+let muteButton = document.querySelector(".mute-button");
 
 /* Event Listeners: */
-dealButton.addEventListener("click", function () {
+dealButton.addEventListener("click", function() {
     currentBet = parseInt(document.querySelector(".bet-number").value);
     deal();
 });
 standButton.addEventListener("click", calcPlayerWins);
 hitButton.addEventListener("click", hit);
-nextHand.addEventListener("click", function () {
+nextHand.addEventListener("click", function() {
     numberOfGames++;
     init();
 });
-loanButton.addEventListener("click", function () {
+loanButton.addEventListener("click", function() {
     currentChips += 1000;
     currentWinnings -= 1000;
     switchButtonVisability(loanButton, "hidden");
@@ -74,12 +74,12 @@ muteButton.addEventListener("click", function() {
         muteButton.style.backgroundImage = 'url("images/mute.png")';
         muteButton.style.backgroundSize = "20px";
     } else {
-        audio.volume = .25;
+        audio.volume = 0.25;
         audio.currentTime = 0;
         muteButton.style.backgroundImage = 'url("images/5525053.png")';
-        muteButton.style.backgroundSize = "30px"
+        muteButton.style.backgroundSize = "30px";
     }
-})
+});
 
 /* Functions and Classes */
 //Card class that defines how the cards will be setup in the deck
@@ -117,10 +117,11 @@ class Deck {
     }
 }
 init();
-audio.volume = 0
+audio.volume = 0;
 switchButtonVisability(hitButton, "hidden");
 switchButtonVisability(standButton, "hidden");
 switchButtonVisability(loanButton, "hidden");
+
 function init() {
     audio.muted = false;
     currentBet = 0;
@@ -133,7 +134,7 @@ function init() {
     dealerScore = 0;
     playerScore = 0;
     switchButtonVisability(nextHand, "hidden");
-    renderScore(playerScore);
+    renderScore();
     if (numberOfGames !== 0 && currentChips > 0) {
         render("Place a bet.");
         switchButtonVisability(dealButton, "visible");
@@ -175,8 +176,8 @@ function deal() {
         dealerCard[1].classList.add(`card`, `back`);
         renderMessage("");
         calcCurrentScore("P");
-        renderScore(playerScore);
-        if (playerScore >= 21 ) {
+        renderScore();
+        if (playerScore >= 21) {
             calcPlayerWins();
         } else {
             return;
@@ -187,30 +188,30 @@ function deal() {
 function calcPlayerWins() {
     revealFacedown();
     if (playerScore <= 21) {
-        if ((playerScore === 21 && dealerScore !== 21)){
-            winner = 'P'
-            currentWinnings += currentBet * 2;
-            currentChips += currentBet * 2;
-            renderMessage(`Blackjack! You won ${currentBet * 2}$`)
-        }else{
-            dealerDeals();
-            if (playerScore === dealerScore) {
-            winner = 'T';
-            currentWinnings += currentBet;
-            currentChips += currentBet;
-            renderMessage("Push! Here's your money back.");
-    
-            } else if (playerScore > dealerScore || dealerScore > 21) {
+        if ((playerScore === 21 && dealerScore !== 21)) {
             winner = 'P';
             currentWinnings += currentBet * 2;
             currentChips += currentBet * 2;
-            renderMessage(`You win! You won ${currentBet * 2}$`);
-            
+            renderMessage(`Blackjack! You won ${currentBet * 2}$`);
         } else {
-            winner = 'D';
-            renderMessage(`Dealer Wins! You lost ${currentBet}$`);
+            dealerDeals();
+            if (playerScore === dealerScore) {
+                winner = 'T';
+                currentWinnings += currentBet;
+                currentChips += currentBet;
+                renderMessage("Push! Here's your money back.");
+
+            } else if (playerScore > dealerScore || dealerScore > 21) {
+                winner = 'P';
+                currentWinnings += currentBet * 2;
+                currentChips += currentBet * 2;
+                renderMessage(`You win! You won ${currentBet * 2}$`);
+
+            } else {
+                winner = 'D';
+                renderMessage(`Dealer Wins with a ${dealerScore}! You lost ${currentBet}$`);
+            }
         }
-    }
     } else {
         winner = 'D';
         renderMessage(`You Bust! You lost ${currentBet}$`);
@@ -277,11 +278,12 @@ function revealFacedown() {
     dealerCard[1].classList.remove('back');
     dealerCard[1].classList.add(`card`, `${SUITICONS[dealerHand[0].suit]}${dealerHand[0].rank}`);
 }
+
 function hit() {
     let cardToHit = deck.dealCard(1);
     playerHand.push(cardToHit[0]);
     calcCurrentScore("P");
-    renderScore(playerScore);
+    renderScore();
     playerCard[playerHand.length].classList.add(`card`, `${SUITICONS[playerHand[playerHand.length - 1].suit]}${playerHand[playerHand.length - 1].rank}`);
     if (playerScore >= 21) {
         calcPlayerWins();
@@ -290,6 +292,7 @@ function hit() {
 
 function render(message) {
     renderMessage(message);
+    renderScore();
     resetBoard();
 
 }
@@ -317,9 +320,10 @@ function calcCurrentScore(PorD) {
         for (let i = 0; i < playerHand.length; i++) {
             playerScore += calcScore(playerHand[i].rank);
         }
-}
+    }
 
 }
+
 function dealerDeals() {
     calcCurrentScore("D");
     for (let i = 0; i < 8; i++) {
@@ -334,8 +338,8 @@ function dealerDeals() {
     }
 }
 
-function renderScore(int) {
-    return playerScoreEl.innerHTML = `Current Score:<br> <span class="score-number">${int}</span>`;
+function renderScore() {
+    return playerScoreEl.innerHTML = `Current Score:<br> <span class="score-number">${playerScore}</span>`;
 }
 
 function switchButtonVisability(button, visability) {
